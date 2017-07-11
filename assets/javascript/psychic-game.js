@@ -1,57 +1,65 @@
 var wins = 0;
 var losses = 0;
 var guessesLeft = 10;
-
 var charSet = "abcdefghijklmnopqrstuvwxyz";
+var wrongLetters = " ";
+var compLetter = charSet.charAt(Math.floor(Math.random() * charSet.length));
+console.log(compLetter);
+var userGuess; 
 
+//reset function to keep game going after the first round 
+var beginAgain = function() {
+	guessesLeft = 10; 
+	document.getElementById("guessesLeft").innerHTML = guessesLeft;
 
-if (guessesLeft > 0) {
+	wrongLetters = " "; 
+	document.getElementById("wrongLetters").innerHTML = wrongLetters; 
 
-	var compLetter = charSet.charAt(Math.floor(Math.random() * charSet.length));
-	console.log(compLetter);
+	compLetter = charSet.charAt(Math.floor(Math.random() * charSet.length));
+	console.log(compLetter); 
 
-	var wrongLetters = " ";
+}
 
-	document.onkeyup = function(event) {
+//determines if user has picked a letter key
+//was unable to solve how to implement such a function before assignment was due... 
+var isLetterKey = function() { 
+	userGuess === "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" 
+	|| "l" || "m" || "n" || "o" || "p" || "q" || "s" || "t" || "u" || "v" || "w" || "x" || "y" 
+	|| "z" ; 
+}
+
+//let the games begin! Users picks a key: 
+document.onkeyup = function(event) {
+
 		var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-
-
-		wrongLetters += userGuess + ", "; 
-		document.getElementById("wrongLetters").innerHTML = wrongLetters;
 
 		guessesLeft = guessesLeft - 1; 
 		document.getElementById("guessesLeft").innerHTML = guessesLeft; 
+	
+		if (guessesLeft > 0) {
 
-		if (userGuess === compLetter) {
-			alert("you won!");
-			wins = wins + 1; 
-			document.getElementById("wins").innerHTML = wins;
+			wrongLetters += userGuess + ", "; 
+			document.getElementById("wrongLetters").innerHTML = wrongLetters;
+
+
+			if (userGuess === compLetter) {
+				alert("you won! I was thinking of '" + compLetter + "'");
+				wins = wins + 1; 
+				document.getElementById("wins").innerHTML = wins;
+				beginAgain();
+			}
+
+		}
+
+		else {
+			losses = losses + 1; 
+			document.getElementById("losses").innerHTML = losses;
+			alert("you lost this round! I was thinking of '" + compLetter + "'"); 
+			alert("try again! Pick another letter to begin"); 
+			beginAgain(); 
 		}
 	}
 
-}
-else if (guessesLeft < 1) {
-	losses = losses + 1; 
-	alert("you lost this round! I was thinking of" + compLetter); 
-	
-}
 
-
-
-
-
-
-/*
-else if (gameOn = false; && guessesLeft = 0) {
-	losses += 1; 
-	document.getElementById("losses").innerHTML = losses; 
-}
-
-else if (gameOn = false && guessesLeft != 0) {
-	wins += 1; 
-	document.getElementById("wins") = wins; 
-}
-
-*/
 
 
